@@ -18,13 +18,17 @@ app.use(cors());
 
 const router = new Router();
 
+router.get("/campus", async ctx => {
+  const facilities = await models.campus_facility.findAll();
+
+  ctx.body = facilities;
+});
+
 router.get("/", async ctx => {
   const boards = await models.board.findAll({
     limit: 10,
     where: { content: { [Op.like]: `%취업%` } }
   });
-
-  console.log(boards.length);
 
   const keywords = await models.keyword.findAll();
 
