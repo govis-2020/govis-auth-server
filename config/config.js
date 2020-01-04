@@ -10,21 +10,23 @@ const {
 } = process.env;
 
 module.exports = {
-  production: {
-    username: DATABASE_USER,
-    password: DATABASE_PASSWORD,
-    database: DATABASE_NAME,
-    host: DATABASE_HOST,
-    dialect: "mysql",
-    dialectOptions: { dateStrings: true, typeCast: true },
-    timezone: "+09:00",
-    logging: false,
-    operatorsAliases: Sequelize.Op,
-    pool: {
-      max: 10,
-      min: 5,
-      idle: 10000,
-      acquire: 60000
-    }
+  username: DATABASE_USER,
+  password: DATABASE_PASSWORD,
+  database: DATABASE_NAME,
+  host: DATABASE_HOST,
+  dialect: "mysql",
+  dialectOptions: { dateStrings: true, typeCast: true },
+  timezone: "+09:00",
+  logging: false,
+  operatorsAliases: Sequelize.Op,
+  pool: {
+    max: 10,
+    min: 5,
+    idle: 10000,
+    acquire: 60000
+  },
+  define: {
+    freezeTableName: true,
+    underscored: true
   }
 };
