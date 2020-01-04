@@ -2,7 +2,10 @@ const puppeteer = require("puppeteer");
 
 const valid = async (id, password) => {
   const url = "https://job.korea.ac.kr/user/login/login/initLogin.do";
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"]
+  });
 
   //브라우저, 페이지 초기화
   const page = await browser.newPage();
