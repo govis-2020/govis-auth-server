@@ -13,8 +13,9 @@ app.use(cors());
 
 const router = new Router();
 
-router.get("/", async ctx => {
-  const result = await valid("doug0476", "qudrb159!");
+router.post("/", async ctx => {
+  const { id, password } = ctx.request.body;
+  const result = await valid(id, password);
 
   ctx.body = result;
 });
