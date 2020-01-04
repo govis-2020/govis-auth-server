@@ -8,6 +8,9 @@ const app = new Koa();
 const valid = require("./valid");
 
 const models = require("./config/models");
+const { Op } = require("sequelize");
+
+const { checkBoardKeyword } = require("./lib/cron");
 
 app.use(koaBody());
 
@@ -16,10 +19,27 @@ app.use(cors());
 const router = new Router();
 
 router.get("/", async ctx => {
-  const data = await models.board.findOne();
+  const boards = await models.board.findAll({
+    limit: 10,
+    where: { content: { [Op.like]: `%취업%` } }
+  });
 
-  
-  console.log(data.toJSON());
+  console.log(boards.length);
+
+  const keywords = await models.keyword.findAll();
+
+  for (let board of boards) {
+    for (let keyword of keywords) {
+      if (board.content.includes(keyword.name)) {
+        await models.board_keyword.create({
+          keywordId: keyword.id,
+          boardId: board.id
+        });
+      }
+    }
+  }
+
+  ctx.body = keywords;
 });
 
 router.post("/", async ctx => {
@@ -38,5 +58,7 @@ router.post("/", async ctx => {
 app.use(router.routes()).use(router.allowedMethods());
 
 app.listen(3005);
+
+checkBoardKeyword("*/5 * * * * *", {});
 
 console.log("서버 실행 3005");
