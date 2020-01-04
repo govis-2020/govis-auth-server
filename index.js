@@ -7,11 +7,19 @@ const app = new Koa();
 
 const valid = require("./valid");
 
+const models = require("./config/models");
+
 app.use(koaBody());
 
 app.use(cors());
 
 const router = new Router();
+
+router.get("/", async ctx => {
+  const user = await models.User.findOne();
+  console.log(user);
+  ctx.body = "OK";
+});
 
 router.post("/", async ctx => {
   const { id, password } = ctx.request.body;

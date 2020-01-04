@@ -2,26 +2,23 @@
 const { Op } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  var CrowlData = sequelize.define(
-    "crowl_data",
+  var User = sequelize.define(
+    "user",
     {
-      article_id: DataTypes.INTEGER,
-      nickname: DataTypes.STRING,
-      boardTypeId: DataTypes.INTEGER,
-      up: DataTypes.INTEGER,
-      down: DataTypes.INTEGER,
-      title: DataTypes.STRING,
-      content: DataTypes.TEXT,
-      view: DataTypes.INTEGER,
-      images: DataTypes.JSON,
-      youtubeUrl: DataTypes.STRING,
-      deleted: DataTypes.BOOLEAN,
-      point: DataTypes.DOUBLE,
-      commentCount: DataTypes.INTEGER
+      user_id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true
+      },
+
+      user_name: DataTypes.STRING,
+      email: DataTypes.STRING,
+      is_valid: DataTypes.BOOLEAN,
+      is_enabled: DataTypes.BOOLEAN,
+      created_at: DataTypes.STRING
     },
     { freezeTableName: true }
   );
-  CrowlData.associate = function(models) {};
+  User.associate = function(models) {};
 
-  return CrowlData;
+  return User;
 };
