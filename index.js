@@ -15,15 +15,15 @@ app.use(cors());
 
 const router = new Router();
 
-router.get("/", async ctx => {
-  const user = await models.User.findOne();
-  console.log(user);
-  ctx.body = "OK";
-});
-
 router.post("/", async ctx => {
-  const { id, password } = ctx.request.body;
+  const { id, password, userId } = ctx.request.body;
   const result = await valid(id, password);
+
+  if (result) {
+    const user = await models.user.findOne({ where: { user_id: userId } });
+    user.is_valid = true;
+    await user.save();
+  }
 
   ctx.body = result;
 });
