@@ -15,6 +15,13 @@ app.use(cors());
 
 const router = new Router();
 
+router.get("/", async ctx => {
+  const data = await models.board.findOne();
+
+  
+  console.log(data.toJSON());
+});
+
 router.post("/", async ctx => {
   const { id, password, userId } = ctx.request.body;
   const result = await valid(id, password);
